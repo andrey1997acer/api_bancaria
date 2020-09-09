@@ -1,9 +1,12 @@
 const express = require('express')
 const bd = require('./src/bd/bd.js');
 const axios = require('axios');
+const cors = require('cors')
+
 
 const app = express()
 app.use(express.json())
+app.use(cors())
  
 app.get('/api/', function (req, res) {
   res.send('Hola mundo')
@@ -43,7 +46,7 @@ app.post('/api/login', (request, response)=>{
             token: user.token
         })
        }else{
-        response.status(505).send({
+        response.status(200).send({
             status:false,
             login: "Email and/or password incorrect"
         })
