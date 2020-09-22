@@ -37,8 +37,8 @@ app.get("/api/user", async (req, res) => {
 });
 
 app.get("/api/transaction", async (req, res) => {
-    res.status(200).send(bd.transaction);
-  });
+  res.status(200).send(bd.transaction);
+});
 
 app.get("/api/date", (req, res) => {
   var fecha = Date.now();
@@ -70,21 +70,21 @@ app.post("/api/pay", (request, response) => {
     (card) => card.name === nombre && card.csv === csv && card.date === fecha && card.number === numero && card.type === tipo
   );
 
-  if(isCard[0]){
+  if (isCard[0]) {
     response.status(200).send({
-      status:true,
-      descripcion:"La transaccion se realizo satisfactoriamente"    
+      status: true,
+      descripcion: "La transaccion se realizo satisfactoriamente"
     })
     console.log("Si es la targeta aprobada")
-  }else{
+  } else {
     response.status(200).send({
-      status:false,
-      descripcion:"La transaccion no se realizo"
+      status: false,
+      descripcion: "La transaccion no se realizo"
     })
 
     console.log("Si es la targeta Denegada")
   }
- 
+
 
 
   console.log(nombre)
@@ -144,7 +144,7 @@ app.post("/api/trasaction", async (req, res) => {
         x_date: Date.now(),
         x_login: token,
       };
-      const save =  bd.transaction = [...bd.transaction, data];
+      const save = bd.transaction = [...bd.transaction, data];
       if (save) {
         res.status(200).send(data);
       }
@@ -161,31 +161,33 @@ app.post("/api/trasaction", async (req, res) => {
   }
 });
 
-app.put('/api/transaction-cancel/:x_trans_id',(req, res)=>{
-    const {x_trans_id} = req.params;
-    console.log(x_trans_id);
-    console.log(req.body.status);
-    const updated = bd.transaction.map((transaction)=>{
-        if(transaction.x_trans_id === x_trans_id){
-            return {...transaction, x_response_reason_code:req.body.status,
-                x_response_reason_text:'Error, el usuario cancelo la transacción'}
-            
-        }
-        return transaction;
-    });
+app.put('/api/transaction-cancel/:x_trans_id', (req, res) => {
+  const { x_trans_id } = req.params;
+  console.log(x_trans_id);
+  console.log(req.body.status);
+  const updated = bd.transaction.map((transaction) => {
+    if (transaction.x_trans_id === x_trans_id) {
+      return {
+        ...transaction, x_response_reason_code: req.body.status,
+        x_response_reason_text: 'Error, el usuario cancelo la transacción'
+      }
 
-    const updatedata =updated.filter((transaction)=>transaction.x_trans_id = x_trans_id)
-    
-
-    if(updated){
-        bd.transaction = updated
-        res.send(updatedata[0])
-    }else{
-        res.status(500).send({
-            status:false,
-            message:'update error'
-        })
     }
+    return transaction;
+  });
+
+  const updatedata = updated.filter((transaction) => transaction.x_trans_id = x_trans_id)
+
+
+  if (updated) {
+    bd.transaction = updated
+    res.send(updatedata[0])
+  } else {
+    res.status(500).send({
+      status: false,
+      message: 'update error'
+    })
+  }
 
 })
 
