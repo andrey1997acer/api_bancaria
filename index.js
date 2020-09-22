@@ -59,6 +59,13 @@ app.get("/api/user/:id", async (req, res) => {
   res.status(200).send({});
 });
 
+app.post("/api/pay", (request, response) => {
+  const nombre = request.body.nombre;
+
+  console.log(nombre)
+
+});
+
 app.post("/api/login", (request, response) => {
   const email = request.body.email;
   const pass = request.body.password;
