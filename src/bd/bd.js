@@ -34,9 +34,9 @@ const BDcontent = {
   transaction: [],
   creditcard: [
     {
-      type: "mastercard",
+      type: "Credito",
       number: "12345",
-      date: "111111",
+      date: "12345",
       csv: "274",
       name: "Kimberly Soto Vargas",
     },

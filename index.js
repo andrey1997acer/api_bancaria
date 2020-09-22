@@ -60,7 +60,32 @@ app.get("/api/user/:id", async (req, res) => {
 });
 
 app.post("/api/pay", (request, response) => {
+  const tipo = request.body.tipo;
+  const numero = request.body.numero;
+  const fecha = request.body.fecha;
+  const csv = request.body.csv;
   const nombre = request.body.nombre;
+
+  const isCard = bd.creditcard.filter(
+    (card) => card.name === nombre && card.csv === csv && card.date === fecha && card.number === numero && card.type === tipo
+  );
+
+  if(isCard[0]){
+    response.status(200).send({
+      status:true,
+      descripcion:"La transaccion se realizo satisfactoriamente"    
+    })
+    console.log("Si es la targeta aprobada")
+  }else{
+    response.status(200).send({
+      status:false,
+      descripcion:"La transaccion no se realizo"
+    })
+
+    console.log("Si es la targeta Denegada")
+  }
+ 
+
 
   console.log(nombre)
 
